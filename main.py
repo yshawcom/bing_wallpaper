@@ -62,7 +62,18 @@ def handle_hexo(image_url, image_name):
     md_file = open(md_file_path, mode='w+', encoding='UTF-8')
     # 写入现有内容
     for line in front_matter:
-        md_file.writelines(line)
+        if line.startswith('tags:'):
+            # 添加标签和封面图
+            md_file.writelines('tags: \n')
+            md_file.writelines('index_img: ' + image_url + '\n')
+            md_file.writelines('banner_img: ' + image_url + '\n')
+        elif line.startswith('category:'):
+            # 分类
+            md_file.writelines('category:\n')
+            md_file.writelines('    - 爬虫\n')
+            md_file.writelines('    - 每日一图\n')
+        else:
+            md_file.writelines(line)
     # 写入文章
     md_file.writelines('\n')
     md_file.writelines(image_name + '\n')
